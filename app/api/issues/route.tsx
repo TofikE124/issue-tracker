@@ -3,8 +3,11 @@ import { z } from "zod";
 import prisma from "@/prisma/client";
 
 const schema = z.object({
-  title: z.string().min(1).max(255),
-  description: z.string().min(1),
+  title: z
+    .string()
+    .min(1, "Title is required")
+    .max(255, "Title can't have more than 255 charachters"),
+  description: z.string().min(1, "Description is required"),
 });
 
 export async function GET(request: NextRequest) {
@@ -17,7 +20,11 @@ export async function POST(request: NextRequest) {
   const validation = schema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(
-      { error: validation.error.errors },
+      {
+        error: validation.error.errors.map((er) => ({
+          [er.path.toString()]: er.message,
+        })),
+      },
       { status: 400 }
     );
 
