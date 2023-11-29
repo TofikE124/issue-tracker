@@ -3,22 +3,23 @@ import React, { useState } from "react";
 import { useForm, Controller, FieldValues } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { TextField, Button, Callout, Text } from "@radix-ui/themes";
-import SimpleMDE from "react-simplemde-editor";
+import { TextField, Button } from "@radix-ui/themes";
 import "easymde/dist/easymde.min.css";
+import dynamic from "next/dynamic";
 
-import { FaExclamationTriangle } from "react-icons/fa";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/app/validationSchemas";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
 
-import delay from "delay";
-
 type IssueForm = z.infer<typeof createIssueSchema>;
 
-const NewIssuePage = async () => {
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
+
+const NewIssuePage = () => {
   const router = useRouter();
   const {
     register,
