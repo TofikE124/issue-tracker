@@ -21,7 +21,10 @@ const IssueStatusFilter = () => {
     router.push(`/issues/list?${urlSearchParams.toString()}`);
   };
   return (
-    <Select.Root onValueChange={(status) => changeFilter(status)}>
+    <Select.Root
+      defaultValue={searchParams.get("status") || "All"}
+      onValueChange={(status) => changeFilter(status)}
+    >
       <Select.Trigger placeholder="Filter by status" />
       <Select.Content>
         {statuses.map((st) => (
