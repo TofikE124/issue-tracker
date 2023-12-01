@@ -16,6 +16,7 @@ const IssueStatusFilter = () => {
   const changeFilter = (status: string) => {
     const params = new URLSearchParams(searchParams);
     status !== "All" ? params.set("status", status) : params.delete("status");
+    params.set("page", "1");
     router.push(`/issues/list?${params.toString()}`);
   };
   return (
