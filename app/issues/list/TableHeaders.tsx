@@ -1,16 +1,11 @@
-"use client";
 import { Issue, Status } from "@prisma/client";
 import { ArrowUpIcon } from "@radix-ui/react-icons";
 import { Table } from "@radix-ui/themes";
 import Link from "next/link";
-import { columns } from "./page";
+import { issueQuery } from "./IssueTable";
 
 interface Props {
-  searchParams: {
-    status: Status;
-    orderBy: keyof Issue;
-    sortOrder: "asc" | "desc";
-  };
+  searchParams: issueQuery;
 }
 
 const TableHeaders = ({ searchParams }: Props) => {
@@ -48,5 +43,20 @@ const TableHeaders = ({ searchParams }: Props) => {
     </Table.ColumnHeaderCell>
   ));
 };
+
+const columns: {
+  label: string;
+  value: keyof Issue;
+  className?: string;
+}[] = [
+  { label: "Issue", value: "title" },
+  { label: "Status", value: "status", className: "hidden md:table-cell" },
+  {
+    label: "Created",
+    value: "createdAt",
+    className: "hidden md:table-cell",
+  },
+];
+export const columnNames = columns.map((c) => c.value);
 
 export default TableHeaders;
