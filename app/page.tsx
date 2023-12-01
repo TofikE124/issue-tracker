@@ -1,11 +1,15 @@
 import Image from "next/image";
 import Pagination from "./components/Pagination";
 
-export default function Home() {
+interface Props {
+  searchParams: { page: string };
+}
+
+export default function Home({ searchParams: { page } }: Props) {
   return (
     <>
       <p>Hello World!</p>
-      <Pagination itemCount={100} currentPage={1} pageSize={10} />
+      <Pagination itemCount={100} currentPage={Number(page)} pageSize={10} />
     </>
   );
 }

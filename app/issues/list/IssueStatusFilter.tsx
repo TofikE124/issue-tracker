@@ -14,11 +14,9 @@ const IssueStatusFilter = () => {
     { label: "closed", value: "CLOSED" },
   ];
   const changeFilter = (status: string) => {
-    const urlSearchParams = new URLSearchParams(searchParams);
-    status !== "All"
-      ? urlSearchParams.set("status", status)
-      : urlSearchParams.delete("status");
-    router.push(`/issues/list?${urlSearchParams.toString()}`);
+    const params = new URLSearchParams(searchParams);
+    status !== "All" ? params.set("status", status) : params.delete("status");
+    router.push(`/issues/list?${params.toString()}`);
   };
   return (
     <Select.Root
