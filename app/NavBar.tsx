@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { AiFillBug } from "react-icons/ai";
-import { signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import {
   Avatar,
   Box,
@@ -39,9 +39,9 @@ const AuthStatus = () => {
   if (status === "loading") return <Skeleton width="3rem" />;
   if (status === "unauthenticated")
     return (
-      <Link className="nav-link" href="/api/auth/signin">
+      <button onClick={() => signIn("google")} className="nav-link">
         Login
-      </Link>
+      </button>
     );
 
   return (
