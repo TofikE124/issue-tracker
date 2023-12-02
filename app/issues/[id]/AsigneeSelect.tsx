@@ -1,6 +1,6 @@
 "use client";
 import { Skeleton } from "@/app/components";
-import { Issue, User } from "@prisma/client";
+import { Issue, Status, User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -15,6 +15,7 @@ const AsigneeSelect = ({ issue }: { issue: Issue }) => {
     try {
       await axios.patch(`/api/issues/${issue.id}`, {
         assignedToUserId: userId === "Null" ? null : userId,
+        status: Status.IN_PROGRESS,
       });
     } catch (error) {
       toast.error("Changed could not be saved");
@@ -49,7 +50,7 @@ const useUsers = () =>
   useQuery<User[]>({
     queryKey: ["users"],
     queryFn: () => axios.get("/api/users").then((res) => res.data),
-    staleTime: 60 * 1000 //60s,
+    staleTime: 60 * 1000, //60s,
   });
 
 export default AsigneeSelect;

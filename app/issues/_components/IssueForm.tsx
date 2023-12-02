@@ -1,5 +1,5 @@
 "use client";
-import { Button, TextField } from "@radix-ui/themes";
+import { Button, Select, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
@@ -11,7 +11,7 @@ import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
 import { issueSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Issue } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
 import { z } from "zod";
 
 type IssueFormData = z.infer<typeof issueSchema>;
@@ -31,6 +31,7 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
   const [isSubmitting, setSubmitting] = useState(false);
 
   async function onSubmit(data: FieldValues) {
+    console.log(data);
     await setSubmitting(true);
     try {
       if (issue) await axios.patch(`/api/issues/${issue.id}`, data);
@@ -55,6 +56,28 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
           />
         </TextField.Root>
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
+        <Controller
+          name="status"
+          control={control}
+          defaultValue={issue?.status}
+          render={({ field }) => (
+            <Select.Root
+              onValueChange={(value) => field.onChange(value)}
+              value={field.value}
+            >
+              <Select.Trigger placeholder="Status..." />
+              <Select.Content>
+                {Object.values(Status).map((status) => (
+                  <Select.Item key={status} value={status}>
+                    {status}
+                  </Select.Item>
+                ))}
+              </Select.Content>
+            </Select.Root>
+          )}
+        />
+        <ErrorMessage>{errors.status?.message}</ErrorMessage>
+
         <Controller
           name="description"
           control={control}

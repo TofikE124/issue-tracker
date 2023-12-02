@@ -52,8 +52,13 @@ const columns: {
   { label: "Issue", value: "title" },
   { label: "Status", value: "status", className: "hidden md:table-cell" },
   {
-    label: "Created",
+    label: "Created At",
     value: "createdAt",
+    className: "hidden md:table-cell",
+  },
+  {
+    label: "Assinged To",
+    value: "assignedToUserId",
     className: "hidden md:table-cell",
   },
 ];
