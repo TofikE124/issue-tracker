@@ -1,10 +1,9 @@
-import Image from "next/image";
-import Pagination from "./components/Pagination";
-import LatestIssues from "./LatestIssues";
-import IssueSummary from "./IssueSummary";
-import IssueChart from "./IssueChart";
 import { Flex, Grid } from "@radix-ui/themes";
 import { Metadata } from "next";
+import IssueChart from "./IssueChart";
+import IssueSummary from "./IssueSummary";
+import LatestIssues from "./LatestIssues";
+import prisma from "@/prisma/client";
 
 interface Props {
   searchParams: { page: string };
